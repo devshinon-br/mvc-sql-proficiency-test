@@ -1,0 +1,13 @@
+package mvc.sql.proficiencytest;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ProficiencyTestApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ProficiencyTestApplication.class, args);
+	}
+
+}
