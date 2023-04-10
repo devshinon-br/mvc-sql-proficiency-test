@@ -9,4 +9,5 @@ To put this project into practice it was used:
 - *Spring Ecosystem*,
 - *HTML*,
 - *Flyway*,
+- *JDBC Template*,
 - *PostgreSQL.*
