@@ -8,8 +8,6 @@ import org.springframework.core.env.Environment;
 
 @SpringBootApplication
 public class ProficiencyTestApplication {
-	private static final String DB_URL  = "jdbc:postgresql://localhost:5432/estacionamento";
-
 	public static void main(String[] args) {
 		SpringApplication.run(ProficiencyTestApplication.class, args);
 	}
