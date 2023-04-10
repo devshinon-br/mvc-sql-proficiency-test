@@ -1,4 +1,4 @@
-# The project mvc-sql-proficiency-test - Backend
+# The project *mvc-sql-proficiency-test* - Backend
 ## ***IFTM college activity***
 ### This project is in progress
 
