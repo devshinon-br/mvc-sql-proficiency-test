@@ -5,9 +5,11 @@ import mvc.sql.proficiencytest.repository.BillingReportRepository;
 import mvc.sql.proficiencytest.repository.mapper.BillingReportMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
+@Repository
 public class BillingReportRepositoryImp implements BillingReportRepository {
 
     @Autowired

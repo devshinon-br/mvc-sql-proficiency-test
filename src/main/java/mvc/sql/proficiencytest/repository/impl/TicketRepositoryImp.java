@@ -5,10 +5,12 @@ import mvc.sql.proficiencytest.repository.TicketRepository;
 import mvc.sql.proficiencytest.repository.mapper.TicketMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
 
+@Repository
 public class TicketRepositoryImp implements TicketRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;

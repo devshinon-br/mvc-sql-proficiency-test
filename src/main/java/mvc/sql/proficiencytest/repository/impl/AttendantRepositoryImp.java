@@ -5,9 +5,11 @@ import mvc.sql.proficiencytest.repository.AttendantRepository;
 import mvc.sql.proficiencytest.repository.mapper.AttendantMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.UUID;
 
+@Repository
 public class AttendantRepositoryImp implements AttendantRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;

@@ -1,6 +1,5 @@
 package mvc.sql.proficiencytest.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,12 +13,20 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class BillingReport {
-    private UUID id = UUID.randomUUID();;
+    private UUID id;
     private LocalDateTime initialDate;
     private LocalDateTime finalDate;
     private List<Ticket> tickets;
+
+    public BillingReport(final LocalDateTime initialDate,
+                         final LocalDateTime finalDate,
+                         final List<Ticket> tickets) {
+        this.id = UUID.randomUUID();
+        this.initialDate = initialDate;
+        this.finalDate = finalDate;
+        this.tickets = tickets;
+    }
 
     public BigDecimal calculateBilling(final LocalDateTime initialDate, final LocalDateTime finalDate) {
         final Duration interval = Duration.between(initialDate, finalDate);

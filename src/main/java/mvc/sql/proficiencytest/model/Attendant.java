@@ -1,6 +1,5 @@
 package mvc.sql.proficiencytest.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,13 +11,17 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Attendant {
     private UUID id;
     private String name;
 
+    public Attendant(final String name) {
+        this.id = UUID.randomUUID();
+        this.name = name;
+    }
+
     public Vehicle registerVehicle(final VehicleDTO dto) {
-        return new Vehicle(dto);
+        return dto.toVehicle();
     }
 
     public void registerDepartureTime(final Ticket ticket) {
