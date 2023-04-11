@@ -12,7 +12,7 @@ public interface TicketRepository {
 
     void updateTicket(final Ticket ticket);
 
-    void deletePriceList(final UUID id);
+    void deleteTicket(final UUID id);
 
     List<Ticket> findTicketsByListId(final List<UUID> ids);
 

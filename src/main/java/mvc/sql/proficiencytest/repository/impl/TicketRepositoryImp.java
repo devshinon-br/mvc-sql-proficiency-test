@@ -25,17 +25,26 @@ public class TicketRepositoryImp implements TicketRepository {
 
     @Override
     public void createTicket(final Ticket ticket) {
-
+        if (ticket != null) {
+            final String sql = "INSERT INTO ticket (id, vehicle_id, billingReport_id, entry_time, departure_time) VALUES (?, ?, ?, ?, ?)";
+            jdbcTemplate.update(sql, ticket.getId(), ticket.getVehicle().getId(), ticket.getBillingReport().getId(), ticket.getEntryTime());
+        }
     }
 
     @Override
     public void updateTicket(final Ticket ticket) {
-
+        if (ticket != null) {
+            final String sql = "UPDATE ticket entry_time = ?, departure_time = ? WHERE id = ?";
+            jdbcTemplate.update(sql, ticket.getEntryTime(), ticket.getDepartureTime(), ticket.getId());
+        }
     }
 
     @Override
-    public void deletePriceList(final UUID id) {
-
+    public void deleteTicket(final UUID id) {
+        if (id != null) {
+            final String sql = "DELETE FROM ticket WHERE id = ?";
+            jdbcTemplate.update(sql, id);
+        }
     }
 
     @Override

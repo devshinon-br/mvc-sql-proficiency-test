@@ -25,16 +25,25 @@ public class BillingReportRepositoryImp implements BillingReportRepository {
 
     @Override
     public void createBillingReport(final BillingReport billingReport) {
-
+        if (billingReport != null) {
+            final String sql = "INSERT INTO billing_report (id, initial_date, final_date) VALUES (?, ?, ?)";
+            jdbcTemplate.update(sql, billingReport.getId(), billingReport.getInitialDate(), billingReport.getFinalDate());
+        }
     }
 
     @Override
     public void updateBillingReport(final BillingReport billingReport) {
-
+        if (billingReport != null) {
+            final String sql = "UPDATE billing_report initial_date = ?, final_date = ?  WHERE id = ?";
+            jdbcTemplate.update(sql, billingReport.getInitialDate(), billingReport.getFinalDate(), billingReport.getId());
+        }
     }
 
     @Override
     public void deleteBillingReport(final UUID id) {
-
+        if (id != null) {
+            final String sql = "DELETE FROM billing_report WHERE id = ?";
+            jdbcTemplate.update(sql, id);
+        }
     }
 }
