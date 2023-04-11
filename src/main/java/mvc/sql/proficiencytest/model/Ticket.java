@@ -23,7 +23,7 @@ public class Ticket {
     private UUID id = UUID.randomUUID();
     private Vehicle vehicle;
     private BillingReport billingReport;
-    private LocalDateTime entryTime = LocalDateTime.now();
+    private LocalDateTime entryTime;
     private LocalDateTime departureTime;
 
     public Ticket(final TicketDTO dto) {

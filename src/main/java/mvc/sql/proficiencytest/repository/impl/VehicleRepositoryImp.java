@@ -17,8 +17,27 @@ public class VehicleRepositoryImp implements VehicleRepository {
 
     @Override
     public Vehicle findVehicleById(final UUID id) {
-        final String sql = "SELECT id, license_plate, model, color FROM vehicle WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new VehicleMapper());
+        if (id != null) {
+            final String sql = "SELECT id, license_plate, model, color FROM vehicle WHERE id = ?";
+            return jdbcTemplate.queryForObject(sql, new Object[]{id}, new VehicleMapper());
+        }
+
+        return null;
+    }
+
+    @Override
+    public void createVehicle(final Vehicle vehicle) {
+
+    }
+
+    @Override
+    public void updateVehicle(final Vehicle vehicle) {
+
+    }
+
+    @Override
+    public void deleteVehicle(final UUID id) {
+
     }
 
 }

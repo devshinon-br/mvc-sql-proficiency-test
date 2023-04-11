@@ -1,16 +1,17 @@
 package mvc.sql.proficiencytest.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mvc.sql.proficiencytest.model.dto.VehicleDTO;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Vehicle {
     private UUID id = UUID.randomUUID();
     private String licensePlate;
