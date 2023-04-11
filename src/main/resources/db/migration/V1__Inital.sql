@@ -35,6 +35,6 @@ CREATE TABLE IF NOT EXISTS price_list (
     id UUID NOT NULL,
     price_per_hour NUMERIC(10, 2) NOT NULL,
     price_per_additional_hour NUMERIC(10, 2) NOT NULL,
-    singlePrice NUMERIC(10, 2) NOT NULL,
+    single_price NUMERIC(10, 2) NOT NULL,
     PRIMARY KEY (id)
 );
