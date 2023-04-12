@@ -8,6 +8,8 @@ import java.util.UUID;
 public interface VehicleRepository {
     Vehicle findVehicleById(final UUID id);
 
+    Vehicle findVehicleByLicensePlate(final String licensePlate);
+
     List<Vehicle> listVehicles();
 
     void createVehicle(final Vehicle vehicle);

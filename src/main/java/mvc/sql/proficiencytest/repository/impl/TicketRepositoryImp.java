@@ -26,6 +26,12 @@ public class TicketRepositoryImp implements TicketRepository {
     }
 
     @Override
+    public List<Ticket> listTickets() {
+        final String sql = "SELECT id, vehicle_id, billingReport_id, entry_time, departure_time FROM ticket";
+        return jdbcTemplate.query(sql, new TicketRowMapper());
+    }
+
+    @Override
     public void createTicket(final Ticket ticket) {
         if (ticket != null) {
             final String sql = "INSERT INTO ticket (id, vehicle_id, billing_report_id, entry_time, departure_time) VALUES (?, ?, ?, ?, ?)";

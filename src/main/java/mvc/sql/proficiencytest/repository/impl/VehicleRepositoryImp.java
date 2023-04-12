@@ -27,6 +27,16 @@ public class VehicleRepositoryImp implements VehicleRepository {
     }
 
     @Override
+    public Vehicle findVehicleByLicensePlate(final String licensePlate){
+        try {
+            final String sql = "SELECT id, license_plate, model, color FROM vehicle where license_plate = ?";
+            return jdbcTemplate.queryForObject(sql, new Object[]{licensePlate}, new VehicleRowMapper());
+        } catch (final Exception e) {
+            return null;
+        }
+    }
+
+    @Override
     public List<Vehicle> listVehicles() {
         final String sql = "SELECT id, license_plate, model, color FROM vehicle";
         return jdbcTemplate.query(sql, new VehicleRowMapper());

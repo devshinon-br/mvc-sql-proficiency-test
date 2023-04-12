@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS vehicle (
     license_plate VARCHAR(100) NOT NULL,
     model VARCHAR(100) NOT NULL,
     color VARCHAR(100) NOT NULL,
+    UNIQUE(license_plate),
     PRIMARY KEY (id)
 );
 

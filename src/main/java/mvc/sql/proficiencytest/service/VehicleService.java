@@ -1,8 +1,6 @@
 package mvc.sql.proficiencytest.service;
 
 import mvc.sql.proficiencytest.model.Vehicle;
-import mvc.sql.proficiencytest.model.VehicleModel;
-import mvc.sql.proficiencytest.model.dto.VehicleDTO;
 import mvc.sql.proficiencytest.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +16,10 @@ public class VehicleService {
 
     public Vehicle findVehicleById(final UUID id) {
         return vehicleRepository.findVehicleById(id);
+    }
+
+    public Vehicle findVehicleByLicensePlate(final String licensePlate) {
+        return vehicleRepository.findVehicleByLicensePlate(licensePlate);
     }
 
     public List<Vehicle> listVehicles() {

@@ -37,6 +37,10 @@ public class TicketService {
         return ticketRepository.findTicketById(id);
     }
 
+    public List<Ticket> listTickets() {
+        return ticketRepository.listTickets();
+    }
+
     public void createTicket(final Ticket ticket) {
         ticketRepository.createTicket(ticket);
     }

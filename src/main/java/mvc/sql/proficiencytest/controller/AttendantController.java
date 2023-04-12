@@ -27,7 +27,7 @@ public class AttendantController {
     @GetMapping("/attendant")
     public String registerAttendant(final Model model) {
         model.addAttribute("attendantDTO", new AttendantDTO());
-        return "attendant";
+        return "attendant/attendant";
     }
 
     @PostMapping("/attendant/save")
@@ -35,7 +35,7 @@ public class AttendantController {
                                 final BindingResult bindingResult,
                                 final Model model) {
         if (bindingResult.hasErrors()) {
-            return "attendant";
+            return "attendant/attendant";
         }
 
         final Attendant attendant = mapper.toEntity(attendantDTO);
@@ -48,6 +48,6 @@ public class AttendantController {
     public String listAttendants(final Model model) {
         final List<Attendant> attendants = attendantService.listAttendants();
         model.addAttribute("attendants", attendants);
-        return "attendant-list";
+        return "attendant/attendant-list";
     }
 }

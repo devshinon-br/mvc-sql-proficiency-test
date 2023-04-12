@@ -8,6 +8,8 @@ import java.util.UUID;
 public interface TicketRepository {
     Ticket findTicketById(final UUID id);
 
+    List<Ticket> listTickets();
+
     void createTicket(final Ticket ticket);
 
     void updateTicket(final Ticket ticket);

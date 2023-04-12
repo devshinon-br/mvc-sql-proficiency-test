@@ -1,19 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="ISO-8859-1">
-    <title>Document</title>
-    <link th:href = "@{/css/bootstrap.css}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Parking</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <style>
+        #image-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <h1 class="text-center mb-4">Estacionamento</h1>
-            <a href="/attendant" class="btn btn-primary btn-lg btn-block mb-4" th:href="@{/attendant}">Registrar atendente</a>
-            <a href="/attendant/list" class="btn btn-secondary btn-lg btn-block mb-4" th:href="@{/attendant/list}">Atendentes cadastrados</a>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <div>
+            <a class="navbar-brand" href="/">Estacionamento</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/attendant" th:href="@{/attendant}">Registrar Atendente</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/attendant/list" th:href="@{/attendant/list}">Ver Atendentes</a>
+                </li>
+            </ul>
         </div>
     </div>
+</nav>
+<div id="image-container">
+    <img src="/assets/img/parking.png">
 </div>
+<script th:src="@{/js/bootstrap.js}"></script>
 </body>
 </html>
