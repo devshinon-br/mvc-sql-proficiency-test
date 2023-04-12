@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -22,6 +23,12 @@ public class AttendantRepositoryImp implements AttendantRepository {
         }
 
         return null;
+    }
+
+    @Override
+    public List<Attendant> listAttendants() {
+        final String sql = "SELECT id, name FROM attendant";
+        return jdbcTemplate.query(sql, new AttendantMapper());
     }
 
     @Override

@@ -6,9 +6,25 @@ public enum VehicleModel {
     PICKUP("pick-up"),
     SUV("suv");
 
-    public final String model;
+    private String description;
 
     VehicleModel(final String model) {
-        this.model = model;
+        this.description = model;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public static VehicleModel getVehicleModel(final String description) {
+        if (description != null) {
+            for(VehicleModel vehicleModel : VehicleModel.values()) {
+                if(vehicleModel.description.equals(description)) {
+                    return vehicleModel;
+                }
+            }
+        }
+
+        return null;
     }
 }

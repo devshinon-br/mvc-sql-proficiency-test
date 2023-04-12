@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Veículos cadastrados</title>
+    <link th:href="@{/assets/fontawesome/css/all.min.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="text-center mb-4">Veículos cadastrados</h1>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Placa</th>
+                    <th scope="col">Modelo</th>
+                    <th scope="col">Cor</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="vehicle, stat : ${vehicles}">
+                    <td th:text="${stat.count}"></td>
+                    <td th:text="${vehicle.licensePlate}"></td>
+                    <td th:text="${vehicle.model}"></td>
+                    <td th:text="${vehicle.color}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script th:src="@{/assets/fontawesome/js/all.min.js}"></script>
+<script th:src="@{https://code.jquery.com/jquery-3.6.0.min.js}" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
+<script th:src="@{/js/bootstrap.js}"></script>
+</body>
+</html>

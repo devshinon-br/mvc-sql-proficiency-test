@@ -12,10 +12,12 @@ public class VehicleMapper implements RowMapper<Vehicle> {
     @Override
     public Vehicle mapRow(final ResultSet rs, final int rowNum) throws SQLException {
         final Vehicle vehicle = new Vehicle();
+
         vehicle.setId(UUID.fromString(rs.getString("id")));
         vehicle.setLicensePlate(rs.getString("license_plate"));
-        vehicle.setModel(VehicleModel.valueOf(rs.getString("model")));
+        vehicle.setModel(VehicleModel.getVehicleModel(rs.getString("model")));
         vehicle.setColor(rs.getString("color"));
+
         return vehicle;
     }
 }

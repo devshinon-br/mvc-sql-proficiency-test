@@ -2,11 +2,13 @@ package mvc.sql.proficiencytest.repository.impl;
 
 import mvc.sql.proficiencytest.model.Vehicle;
 import mvc.sql.proficiencytest.repository.VehicleRepository;
+import mvc.sql.proficiencytest.repository.mapper.AttendantMapper;
 import mvc.sql.proficiencytest.repository.mapper.VehicleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 @Repository
@@ -26,10 +28,16 @@ public class VehicleRepositoryImp implements VehicleRepository {
     }
 
     @Override
+    public List<Vehicle> listVehicles() {
+        final String sql = "SELECT id, license_plate, model, color FROM vehicle";
+        return jdbcTemplate.query(sql, new VehicleMapper());
+    }
+
+    @Override
     public void createVehicle(final Vehicle vehicle) {
         if (vehicle != null) {
             final String sql = "INSERT INTO vehicle (id, license_plate, model, color) VALUES (?, ?, ?, ?)";
-            jdbcTemplate.update(sql, vehicle.getId(), vehicle.getLicensePlate(), vehicle.getModel(), vehicle.getColor());
+            jdbcTemplate.update(sql, vehicle.getId(), vehicle.getLicensePlate(), vehicle.getModel().getDescription(), vehicle.getColor());
         }
     }
 
