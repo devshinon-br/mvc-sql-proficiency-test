@@ -15,10 +15,6 @@ import java.util.UUID;
 @Getter
 @Setter
 public class BillingReportDTO {
-
-    @Autowired
-    private TicketRepository ticketRepository;
-
     @NotNull
     private LocalDateTime initialDate;
     @NotNull
@@ -26,13 +22,4 @@ public class BillingReportDTO {
     @NotNull
     private List<UUID> tickets;
 
-    public BillingReport toBillingReport() {
-        final List<Ticket> ticketList = ticketRepository.findTicketsByListId(tickets);
-
-        return new BillingReport(
-                this.getInitialDate(),
-                this.getFinalDate(),
-                ticketList
-        );
-    }
 }

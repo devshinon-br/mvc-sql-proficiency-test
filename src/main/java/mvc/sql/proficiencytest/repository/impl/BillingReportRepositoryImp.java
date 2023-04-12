@@ -2,7 +2,7 @@ package mvc.sql.proficiencytest.repository.impl;
 
 import mvc.sql.proficiencytest.model.BillingReport;
 import mvc.sql.proficiencytest.repository.BillingReportRepository;
-import mvc.sql.proficiencytest.repository.mapper.BillingReportMapper;
+import mvc.sql.proficiencytest.repository.rowmapper.BillingReportRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,7 +19,7 @@ public class BillingReportRepositoryImp implements BillingReportRepository {
     public BillingReport findBillingReportById(final UUID id) {
         if (id != null) {
             final String sql = "SELECT id, initial_date, final_date FROM billing_report WHERE id = ?";
-            return jdbcTemplate.queryForObject(sql, new Object[]{id}, new BillingReportMapper());
+            return jdbcTemplate.queryForObject(sql, new Object[]{id}, new BillingReportRowMapper());
         }
 
         return null;

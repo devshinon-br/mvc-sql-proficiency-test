@@ -13,7 +13,4 @@ public class AttendantDTO {
     @NotNull
     private String name;
 
-    public Attendant toAttendant() {
-        return new Attendant(this.getName());
-    }
 }

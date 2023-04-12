@@ -6,7 +6,6 @@ import lombok.Setter;
 import mvc.sql.proficiencytest.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -32,17 +31,5 @@ public class Ticket {
         this.billingReport = billingReport;
         this.entryTime = entryTime;
         this.departureTime = departureTime;
-    }
-
-    public long calculateLengthOfStay(final LocalDateTime entryTime, final LocalDateTime departureTime) {
-        if (this.validateDepartureTimeAndEntryTime(entryTime, departureTime)) {
-            return Duration.between(entryTime, departureTime).toHours();
-        }
-        return 0;
-    }
-
-    public boolean validateDepartureTimeAndEntryTime(final LocalDateTime entryTime, final LocalDateTime departureTime) {
-        return (entryTime != null && departureTime != null)
-                && departureTime.isAfter(entryTime);
     }
 }

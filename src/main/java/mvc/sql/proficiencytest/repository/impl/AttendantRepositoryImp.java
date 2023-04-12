@@ -2,7 +2,7 @@ package mvc.sql.proficiencytest.repository.impl;
 
 import mvc.sql.proficiencytest.model.Attendant;
 import mvc.sql.proficiencytest.repository.AttendantRepository;
-import mvc.sql.proficiencytest.repository.mapper.AttendantMapper;
+import mvc.sql.proficiencytest.repository.rowmapper.AttendantRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,7 +19,7 @@ public class AttendantRepositoryImp implements AttendantRepository {
     public Attendant findAttendantById(final UUID id) {
         if (id != null) {
             final String sql = "SELECT id, name FROM attendant WHERE id = ?";
-            return jdbcTemplate.queryForObject(sql, new Object[]{id}, new AttendantMapper());
+            return jdbcTemplate.queryForObject(sql, new Object[]{id}, new AttendantRowMapper());
         }
 
         return null;
@@ -28,7 +28,7 @@ public class AttendantRepositoryImp implements AttendantRepository {
     @Override
     public List<Attendant> listAttendants() {
         final String sql = "SELECT id, name FROM attendant";
-        return jdbcTemplate.query(sql, new AttendantMapper());
+        return jdbcTemplate.query(sql, new AttendantRowMapper());
     }
 
     @Override

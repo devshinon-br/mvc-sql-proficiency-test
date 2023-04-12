@@ -2,7 +2,7 @@ package mvc.sql.proficiencytest.repository.impl;
 
 import mvc.sql.proficiencytest.model.Ticket;
 import mvc.sql.proficiencytest.repository.TicketRepository;
-import mvc.sql.proficiencytest.repository.mapper.TicketMapper;
+import mvc.sql.proficiencytest.repository.rowmapper.TicketRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,7 +19,7 @@ public class TicketRepositoryImp implements TicketRepository {
     public Ticket findTicketById(final UUID id) {
         if (id != null) {
             final String sql = "SELECT id, vehicle_id, billingReport_id, entry_time, departure_time FROM ticket WHERE id = ?";
-            return jdbcTemplate.queryForObject(sql, new Object[]{id}, new TicketMapper());
+            return jdbcTemplate.queryForObject(sql, new Object[]{id}, new TicketRowMapper());
         }
 
         return null;
@@ -28,8 +28,15 @@ public class TicketRepositoryImp implements TicketRepository {
     @Override
     public void createTicket(final Ticket ticket) {
         if (ticket != null) {
-            final String sql = "INSERT INTO ticket (id, vehicle_id, billingReport_id, entry_time, departure_time) VALUES (?, ?, ?, ?, ?)";
-            jdbcTemplate.update(sql, ticket.getId(), ticket.getVehicle().getId(), ticket.getBillingReport().getId(), ticket.getEntryTime());
+            final String sql = "INSERT INTO ticket (id, vehicle_id, billing_report_id, entry_time, departure_time) VALUES (?, ?, ?, ?, ?)";
+            jdbcTemplate.update(
+                    sql,
+                    ticket.getId(),
+                    ticket.getVehicle().getId(),
+                    ticket.getBillingReport() == null ? null : ticket.getBillingReport().getId(),
+                    ticket.getEntryTime(),
+                    ticket.getDepartureTime()
+            );
         }
     }
 
@@ -54,7 +61,7 @@ public class TicketRepositoryImp implements TicketRepository {
         if (ids != null && !ids.isEmpty()) {
             final String sql = "SELECT id, vehicle_id, billingReport_id, entry_time, departure_time FROM ticket WHERE id IN(?)";
             final Object[] idsArray = ids.toArray();
-            return jdbcTemplate.query(sql, idsArray, new TicketMapper());
+            return jdbcTemplate.query(sql, idsArray, new TicketRowMapper());
         }
 
         return null;
@@ -64,7 +71,7 @@ public class TicketRepositoryImp implements TicketRepository {
     public List<Ticket> findAllBillingReportTickets(final UUID billingReportId) {
         if (billingReportId != null) {
             final String sql = "SELECT id, vehicle_id, billingReport_id, entry_time, departure_time FROM ticket WHERE billingReport_id = ?";
-            return jdbcTemplate.query(sql, new TicketMapper());
+            return jdbcTemplate.query(sql, new TicketRowMapper());
         }
 
         return null;

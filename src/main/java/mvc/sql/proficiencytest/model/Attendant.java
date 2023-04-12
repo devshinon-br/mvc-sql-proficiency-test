@@ -19,16 +19,4 @@ public class Attendant {
         this.id = UUID.randomUUID();
         this.name = name;
     }
-
-    public Vehicle registerVehicle(final VehicleDTO dto) {
-        return dto.toVehicle();
-    }
-
-    public void registerDepartureTime(final Ticket ticket) {
-        ticket.setDepartureTime(LocalDateTime.now());
-    }
-
-    public void registerEntryTime(final Ticket ticket) {
-        ticket.setEntryTime(LocalDateTime.now());
-    }
 }

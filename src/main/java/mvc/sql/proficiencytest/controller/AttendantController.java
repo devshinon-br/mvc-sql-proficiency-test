@@ -2,7 +2,8 @@ package mvc.sql.proficiencytest.controller;
 
 import mvc.sql.proficiencytest.model.Attendant;
 import mvc.sql.proficiencytest.model.dto.AttendantDTO;
-import mvc.sql.proficiencytest.repository.AttendantRepository;
+import mvc.sql.proficiencytest.model.mapper.AttendantMapper;
+import mvc.sql.proficiencytest.service.AttendantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +19,10 @@ import java.util.List;
 public class AttendantController {
 
     @Autowired
-    private AttendantRepository attendantRepository;
+    private AttendantService attendantService;
+
+    @Autowired
+    private AttendantMapper mapper;
 
     @GetMapping("/attendant")
     public String registerAttendant(final Model model) {
@@ -34,13 +38,15 @@ public class AttendantController {
             return "attendant";
         }
 
-        attendantRepository.createAttendant(attendantDTO.toAttendant());
+        final Attendant attendant = mapper.toEntity(attendantDTO);
+        attendantService.createAttendant(attendant);
+
         return "redirect:/attendant/list";
     }
 
     @GetMapping("/attendant/list")
     public String listAttendants(final Model model) {
-        final List<Attendant> attendants = attendantRepository.listAttendants();
+        final List<Attendant> attendants = attendantService.listAttendants();
         model.addAttribute("attendants", attendants);
         return "attendant-list";
     }

@@ -2,8 +2,7 @@ package mvc.sql.proficiencytest.repository.impl;
 
 import mvc.sql.proficiencytest.model.Vehicle;
 import mvc.sql.proficiencytest.repository.VehicleRepository;
-import mvc.sql.proficiencytest.repository.mapper.AttendantMapper;
-import mvc.sql.proficiencytest.repository.mapper.VehicleMapper;
+import mvc.sql.proficiencytest.repository.rowmapper.VehicleRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -21,7 +20,7 @@ public class VehicleRepositoryImp implements VehicleRepository {
     public Vehicle findVehicleById(final UUID id) {
         if (id != null) {
             final String sql = "SELECT id, license_plate, model, color FROM vehicle WHERE id = ?";
-            return jdbcTemplate.queryForObject(sql, new Object[]{id}, new VehicleMapper());
+            return jdbcTemplate.queryForObject(sql, new Object[]{id}, new VehicleRowMapper());
         }
 
         return null;
@@ -30,7 +29,7 @@ public class VehicleRepositoryImp implements VehicleRepository {
     @Override
     public List<Vehicle> listVehicles() {
         final String sql = "SELECT id, license_plate, model, color FROM vehicle";
-        return jdbcTemplate.query(sql, new VehicleMapper());
+        return jdbcTemplate.query(sql, new VehicleRowMapper());
     }
 
     @Override

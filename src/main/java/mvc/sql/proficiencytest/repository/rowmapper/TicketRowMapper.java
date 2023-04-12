@@ -1,4 +1,4 @@
-package mvc.sql.proficiencytest.repository.mapper;
+package mvc.sql.proficiencytest.repository.rowmapper;
 
 import mvc.sql.proficiencytest.model.BillingReport;
 import mvc.sql.proficiencytest.model.Ticket;
@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class TicketMapper implements RowMapper<Ticket> {
+public class TicketRowMapper implements RowMapper<Ticket> {
 
     @Autowired
     private VehicleRepository vehicleRepository;

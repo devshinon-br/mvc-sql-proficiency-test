@@ -2,7 +2,8 @@ package mvc.sql.proficiencytest.controller;
 
 import mvc.sql.proficiencytest.model.Vehicle;
 import mvc.sql.proficiencytest.model.dto.VehicleDTO;
-import mvc.sql.proficiencytest.repository.VehicleRepository;
+import mvc.sql.proficiencytest.model.mapper.VehicleMapper;
+import mvc.sql.proficiencytest.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +19,10 @@ import java.util.List;
 public class VehicleController {
 
     @Autowired
-    private VehicleRepository vehicleRepository;
+    private VehicleService vehicleService;
+
+    @Autowired
+    private VehicleMapper mapper;
 
     @GetMapping("/vehicle")
     public String registerVehicle(Model model) {
@@ -34,13 +38,15 @@ public class VehicleController {
             return "vehicle";
         }
 
-        vehicleRepository.createVehicle(vehicleDTO.toVehicle());
+        final Vehicle vehicle = mapper.toEntity(vehicleDTO);
+        vehicleService.createVehicle(vehicle);
+
         return "redirect:/vehicle/list";
     }
 
     @GetMapping("/vehicle/list")
     public String listVehicles(final Model model) {
-        final List<Vehicle> attendants = vehicleRepository.listVehicles();
+        final List<Vehicle> attendants = vehicleService.listVehicles();
         model.addAttribute("vehicles", attendants);
         return "vehicle-list";
     }

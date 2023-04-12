@@ -1,4 +1,4 @@
-package mvc.sql.proficiencytest.repository.mapper;
+package mvc.sql.proficiencytest.repository.rowmapper;
 
 import mvc.sql.proficiencytest.model.Attendant;
 import org.springframework.jdbc.core.RowMapper;
@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
-public class AttendantMapper implements RowMapper<Attendant> {
+public class AttendantRowMapper implements RowMapper<Attendant> {
     @Override
     public Attendant mapRow(final ResultSet rs, final int rowNum) throws SQLException {
         final Attendant attendant = new Attendant();

@@ -2,7 +2,7 @@ package mvc.sql.proficiencytest.repository.impl;
 
 import mvc.sql.proficiencytest.model.PriceList;
 import mvc.sql.proficiencytest.repository.PriceListRepository;
-import mvc.sql.proficiencytest.repository.mapper.PriceListMapper;
+import mvc.sql.proficiencytest.repository.rowmapper.PriceListRowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,7 +19,7 @@ public class PriceListRepositoryImp implements PriceListRepository {
     public PriceList findPriceListById(final UUID id) {
         if (id != null) {
             final String sql = "SELECT id, price_per_hour, price_per_additional_hour, single_price FROM price_list WHERE id = ?";
-            return jdbcTemplate.queryForObject(sql, new Object[]{id}, new PriceListMapper());
+            return jdbcTemplate.queryForObject(sql, new Object[]{id}, new PriceListRowMapper());
         }
 
         return null;
