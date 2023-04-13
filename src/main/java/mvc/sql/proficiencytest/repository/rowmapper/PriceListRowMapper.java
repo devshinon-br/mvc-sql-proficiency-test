@@ -18,6 +18,7 @@ public class PriceListRowMapper implements RowMapper<PriceList> {
         priceList.setPricePerHour(rs.getBigDecimal("price_per_hour"));
         priceList.setPricePerAdditionalHour(rs.getBigDecimal("price_per_additional_hour"));
         priceList.setSinglePrice(rs.getBigDecimal("single_price"));
+        priceList.setStatus(rs.getBoolean("status"));
 
         return priceList;
     }

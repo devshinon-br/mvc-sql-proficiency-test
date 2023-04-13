@@ -1,16 +1,17 @@
 package mvc.sql.proficiencytest.controller;
 
+import mvc.sql.proficiencytest.model.PriceList;
 import mvc.sql.proficiencytest.model.Ticket;
 import mvc.sql.proficiencytest.model.Vehicle;
 import mvc.sql.proficiencytest.model.dto.VehicleDTO;
 import mvc.sql.proficiencytest.model.mapper.VehicleMapper;
+import mvc.sql.proficiencytest.service.PriceListService;
 import mvc.sql.proficiencytest.service.TicketService;
 import mvc.sql.proficiencytest.service.VehicleService;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +32,9 @@ public class VehicleController {
 
     @Autowired
     private TicketService ticketService;
+
+    @Autowired
+    private PriceListService priceListService;
 
     @Autowired
     private VehicleMapper mapper;
@@ -47,6 +50,13 @@ public class VehicleController {
     public Map<String, Object> saveVehicle(@ModelAttribute("vehicleDTO") @Valid final VehicleDTO vehicleDTO) {
         Map<String, Object> response = new HashMap<>();
         try {
+
+            final List<PriceList> priceList = priceListService.getPriceListActived();
+            if (priceList == null || priceList.isEmpty()) {
+                response.put("errorMessage", "Não há tabela de preços ativa!");
+                return response;
+            }
+
             Vehicle vehicle = vehicleService.findVehicleByLicensePlate(vehicleDTO.getLicensePlate());
 
             if(vehicle == null) {
@@ -63,7 +73,7 @@ public class VehicleController {
                 return response;
             }
 
-            ticket = new Ticket(vehicle, null, LocalDateTime.now(), null);
+            ticket = new Ticket(vehicle, null, priceList.get(0), LocalDateTime.now(), null);
             ticketService.createTicket(ticket);
 
             response.put("entryTime", ticket.getEntryTime().format(formatter));

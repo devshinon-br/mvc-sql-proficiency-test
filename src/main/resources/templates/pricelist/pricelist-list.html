@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Listagem de PriceLists</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+    <link th:href="@{/assets/fontawesome/css/all.min.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h3 class="text-center mb-4">Listagem de Tabelas de Preço</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Preço por hora</th>
+            <th>Preço por hora adicional</th>
+            <th>Preço único</th>
+            <th>Status</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="priceList, stat : ${priceLists}">
+            <td th:text="${stat.count}"></td>
+            <td th:text="${priceList.pricePerHour}"></td>
+            <td th:text="${priceList.pricePerAdditionalHour}"></td>
+            <td th:text="${priceList.singlePrice}"></td>
+            <td th:text="${priceList.status ? 'Ativo' : 'Inativo'}" />
+            <td>
+                <form th:action="@{/pricelist/delete}" method="POST">
+                    <input type="hidden" name="id" th:value="${priceList.id}">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </form>
+            </td>
+            <td>
+                <form th:action="@{/pricelist/edit}" method="GET">
+                    <input type="hidden" name="id" th:value="${priceList.id}">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="text-center">
+        <a class="btn btn-secondary" href="/">Voltar</a>
+    </div>
+</div>
+</body>
+</html>

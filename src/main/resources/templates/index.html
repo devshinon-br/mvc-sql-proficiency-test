@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Parking</title>
+    <script th:src="@{/assets/fontawesome/js/all.min.js}"></script>
+    <script th:src="@{https://code.jquery.com/jquery-3.6.0.min.js}" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <link th:href="@{/assets/fontawesome/css/all.min.css}" rel="stylesheet">
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
     <style>
         #image-container {
@@ -10,6 +15,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+
+        img {
+            width: 20%;
         }
     </style>
 </head>
@@ -24,11 +33,23 @@
         </div>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/attendant" th:href="@{/attendant}">Registrar Atendente</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown-pricelist" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Tabela de Preço
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown-pricelist">
+                        <a class="dropdown-item" href="/pricelist">Registrar Tabelas de Preço</a>
+                        <a class="dropdown-item" href="/pricelist/list">Ver Tabelas de Preços</a>
+                    </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/attendant/list" th:href="@{/attendant/list}">Ver Atendentes</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown-attendant" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Atendente
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown-attendant">
+                        <a class="dropdown-item" href="/attendant">Registrar Atendente</a>
+                        <a class="dropdown-item" href="/attendant/list">Ver Atendentes</a>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/vehicle/list" th:href="@{/vehicle/list}">Veículos com saídas não registradas</a>
@@ -40,6 +61,5 @@
 <div id="image-container">
     <img src="/assets/img/parking.png">
 </div>
-<script th:src="@{/js/bootstrap.js}"></script>
 </body>
 </html>

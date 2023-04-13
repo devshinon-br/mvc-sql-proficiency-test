@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
@@ -50,14 +51,12 @@ public class TicketRowMapper implements RowMapper<Ticket> {
 
         final String entryTime = rs.getString("entry_time");
         if (entryTime != null) {
-            final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
-            ticket.setEntryTime(LocalDateTime.parse(entryTime, formatter));
+            ticket.setEntryTime(Timestamp.valueOf(entryTime).toLocalDateTime());
         }
 
         final String departureTime = rs.getString("departure_time");
         if (departureTime != null) {
-            final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
-            ticket.setDepartureTime(LocalDateTime.parse(departureTime, formatter));
+            ticket.setDepartureTime(Timestamp.valueOf(entryTime).toLocalDateTime());
         }
 
         return ticket;

@@ -19,16 +19,19 @@ public class Ticket {
     private UUID id;
     private Vehicle vehicle;
     private BillingReport billingReport;
+    private PriceList priceList;
     private LocalDateTime entryTime;
     private LocalDateTime departureTime;
 
     public Ticket(final Vehicle vehicle,
                   final BillingReport billingReport,
+                  final PriceList priceList,
                   final LocalDateTime entryTime,
                   final LocalDateTime departureTime) {
         this.id = UUID.randomUUID();
         this.vehicle = vehicle;
         this.billingReport = billingReport;
+        this.priceList = priceList;
         this.entryTime = entryTime;
         this.departureTime = departureTime;
     }

@@ -10,7 +10,17 @@ public class PriceListMapper {
         return new PriceList(
                 dto.getPricePerHour(),
                 dto.getPricePerAdditionalHour(),
-                dto.getSinglePrice()
+                dto.getSinglePrice(),
+                dto.isStatus()
+        );
+    }
+
+    public PriceListDTO toDto(final PriceList entity) {
+        return new PriceListDTO(
+                entity.getPricePerHour(),
+                entity.getPricePerAdditionalHour(),
+                entity.getSinglePrice(),
+                entity.isStatus()
         );
     }
 }

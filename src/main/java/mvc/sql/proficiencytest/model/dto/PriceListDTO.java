@@ -1,6 +1,8 @@
 package mvc.sql.proficiencytest.model.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mvc.sql.proficiencytest.model.PriceList;
 
@@ -9,6 +11,8 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PriceListDTO {
     @NotNull
     private BigDecimal pricePerHour;
@@ -16,4 +20,6 @@ public class PriceListDTO {
     private BigDecimal pricePerAdditionalHour;
     @NotNull
     private BigDecimal singlePrice;
+    @NotNull
+    private boolean status;
 }

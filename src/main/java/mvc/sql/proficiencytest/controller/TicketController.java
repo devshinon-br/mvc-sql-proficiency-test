@@ -40,7 +40,7 @@ public class TicketController {
 
     @GetMapping("/ticket")
     public Map<String, Object> registerTicket(@RequestParam(value = "entryTime") final LocalDateTime entryTime,
-                                 @RequestParam(value = "licensePlate") final String licensePlate) {
+                                              @RequestParam(value = "licensePlate") final String licensePlate) {
 
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
         Map<String, Object> response = new HashMap<>();

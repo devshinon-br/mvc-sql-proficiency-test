@@ -1,15 +1,10 @@
 package mvc.sql.proficiencytest.service;
 
 import mvc.sql.proficiencytest.model.Attendant;
-import mvc.sql.proficiencytest.model.Ticket;
-import mvc.sql.proficiencytest.model.Vehicle;
-import mvc.sql.proficiencytest.model.dto.VehicleDTO;
-import mvc.sql.proficiencytest.model.mapper.VehicleMapper;
 import mvc.sql.proficiencytest.repository.AttendantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,24 +13,6 @@ public class AttendantService {
 
     @Autowired
     private AttendantRepository attendantRepository;
-
-    @Autowired
-    private VehicleService vehicleService;
-
-    @Autowired
-    private VehicleMapper mapper;
-
-    public Vehicle registerVehicle(final VehicleDTO dto) {
-        return mapper.toEntity(dto);
-    }
-
-    public void registerDepartureTime(final Ticket ticket) {
-        ticket.setDepartureTime(LocalDateTime.now());
-    }
-
-    public void registerEntryTime(final Ticket ticket) {
-        ticket.setEntryTime(LocalDateTime.now());
-    }
 
     public Attendant findAttendantById(final UUID id) {
         return attendantRepository.findAttendantById(id);
