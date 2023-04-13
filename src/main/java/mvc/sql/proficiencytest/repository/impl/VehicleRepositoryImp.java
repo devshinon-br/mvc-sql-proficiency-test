@@ -1,12 +1,17 @@
 package mvc.sql.proficiencytest.repository.impl;
 
+import mvc.sql.proficiencytest.model.Ticket;
 import mvc.sql.proficiencytest.model.Vehicle;
+import mvc.sql.proficiencytest.model.VehicleModel;
 import mvc.sql.proficiencytest.repository.VehicleRepository;
 import mvc.sql.proficiencytest.repository.rowmapper.VehicleRowMapper;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,6 +42,30 @@ public class VehicleRepositoryImp implements VehicleRepository {
         } catch (final Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public List<Pair<Vehicle, Ticket>> findVehiclesWhereDepartureTimeIsNull() {
+        final String sql = "SELECT v.id, v.license_plate, v.model, v.color, t.id AS ticket_id, t.vehicle_id, t.entry_time, t.departure_time FROM vehicle v LEFT JOIN ticket t ON t.vehicle_id = v.id WHERE t.departure_time IS NULL";
+        return jdbcTemplate.query(sql, rs -> {
+            final List<Pair<Vehicle, Ticket>> result = new ArrayList<>();
+            while (rs.next()) {
+                final Vehicle vehicle = new Vehicle();
+                vehicle.setId(UUID.fromString(rs.getString("id")));
+                vehicle.setLicensePlate(rs.getString("license_plate"));
+                vehicle.setModel(VehicleModel.getVehicleModel(rs.getString("model")));
+                vehicle.setColor(rs.getString("color"));
+
+                final Ticket ticket = new Ticket();
+                ticket.setId(UUID.fromString(rs.getString("ticket_id")));
+                ticket.setVehicle(vehicle);
+                ticket.setEntryTime(rs.getTimestamp("entry_time").toLocalDateTime());
+                ticket.setDepartureTime(rs.getTimestamp("departure_time") != null ? rs.getTimestamp("departure_time").toLocalDateTime() : null);
+
+                result.add(new ImmutablePair<>(vehicle, ticket));
+            }
+            return result;
+        });
     }
 
     @Override

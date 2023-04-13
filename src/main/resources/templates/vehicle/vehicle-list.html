@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:java="java.time.format.DateTimeFormatter">
 <head>
     <meta charset="UTF-8">
     <title>Veículos</title>
@@ -14,22 +14,37 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <h1 class="text-center mb-4">Veículos</h1>
+            <h1 class="text-center mb-4">Veículos com saída não registrada</h1>
             <table class="table">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Placa</th>
-                    <th scope="col">Modelo</th>
-                    <th scope="col">Cor</th>
+                    <th scope="col">Data de entrada</th>
+                    <th scope="col">Ações</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="vehicle, stat : ${vehicles}">
                     <td th:text="${stat.count}"></td>
-                    <td th:text="${vehicle.licensePlate}"></td>
-                    <td th:text="${vehicle.model}"></td>
-                    <td th:text="${vehicle.color}"></td>
+                    <td th:text="${vehicle.left.licensePlate}"></td>
+                    <td th:text="${#temporals.format(vehicle.right.entryTime, 'dd/MM/yyyy HH:mm:ss')}"></td>
+                    <td>
+                        <div class="dropdown dropright">
+                            <button class="btn btn-secondary dropdown-toggle"
+                                    type="button"
+                                    id="dropdownMenuButton"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                    title="Ações">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" th:href="@{/ticket/departure-time}">Registrar saída de veículo</a>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
                 </tbody>
             </table>

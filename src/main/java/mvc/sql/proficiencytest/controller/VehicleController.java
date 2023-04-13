@@ -6,6 +6,7 @@ import mvc.sql.proficiencytest.model.dto.VehicleDTO;
 import mvc.sql.proficiencytest.model.mapper.VehicleMapper;
 import mvc.sql.proficiencytest.service.TicketService;
 import mvc.sql.proficiencytest.service.VehicleService;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,9 +78,12 @@ public class VehicleController {
 
     @GetMapping("/vehicle/list")
     public String listVehicles(final Model model) {
-        final List<Vehicle> vehicles = vehicleService.listVehicles();
-        model.addAttribute("vehicles", vehicles);
+        final List<Pair<Vehicle, Ticket>> pairList = vehicleService.findVehiclesWhereDepartureTimeIsNull();
+
+        model.addAttribute("vehicles", pairList);
+
         return "vehicle/vehicle-list";
     }
+
 
 }
