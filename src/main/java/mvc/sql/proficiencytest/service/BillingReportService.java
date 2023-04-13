@@ -1,6 +1,7 @@
 package mvc.sql.proficiencytest.service;
 
 import mvc.sql.proficiencytest.model.BillingReport;
+import mvc.sql.proficiencytest.model.Ticket;
 import mvc.sql.proficiencytest.repository.BillingReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,8 +14,12 @@ import java.util.UUID;
 @Service
 public class BillingReportService {
 
+    private final BillingReportRepository billingReportRepository;
+
     @Autowired
-    private BillingReportRepository billingReportRepository;
+    public BillingReportService(BillingReportRepository billingReportRepository) {
+        this.billingReportRepository = billingReportRepository;
+    }
 
     public BigDecimal calculateBilling(final LocalDateTime initialDate, final LocalDateTime finalDate) {
         final Duration interval = Duration.between(initialDate, finalDate);

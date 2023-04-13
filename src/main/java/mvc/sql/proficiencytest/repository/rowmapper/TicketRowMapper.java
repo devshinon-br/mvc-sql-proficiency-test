@@ -3,39 +3,62 @@ package mvc.sql.proficiencytest.repository.rowmapper;
 import mvc.sql.proficiencytest.model.BillingReport;
 import mvc.sql.proficiencytest.model.Ticket;
 import mvc.sql.proficiencytest.model.Vehicle;
-import mvc.sql.proficiencytest.repository.BillingReportRepository;
-import mvc.sql.proficiencytest.repository.VehicleRepository;
+import mvc.sql.proficiencytest.service.BillingReportService;
+import mvc.sql.proficiencytest.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
+@Component
 public class TicketRowMapper implements RowMapper<Ticket> {
 
-    @Autowired
-    private VehicleRepository vehicleRepository;
+    private final VehicleService vehicleService;
+    private final BillingReportService reportService;
 
     @Autowired
-    private BillingReportRepository billingReportRepository;
+    public TicketRowMapper(final VehicleService vehicleService, final BillingReportService reportService) {
+        this.vehicleService = vehicleService;
+        this.reportService = reportService;
+    }
 
     @Override
     public Ticket mapRow(final ResultSet rs, final int rowNum) throws SQLException {
         final Ticket ticket = new Ticket();
 
-        final UUID vehicleId = UUID.fromString(rs.getString("vehicle_id"));
-        final Vehicle vehicle = vehicleRepository.findVehicleById(vehicleId);
+        final String id = rs.getString("id");
+        if (id != null) {
+            ticket.setId(UUID.fromString(id));
+        }
 
-        final UUID billingReportId = UUID.fromString(rs.getString("billing_report_id"));
-        final BillingReport billingReport = billingReportRepository.findBillingReportById(billingReportId);
+        final String vehicleId = rs.getString("vehicle_id");
+        if (vehicleId != null) {
+            final Vehicle vehicle = vehicleService.findVehicleById(UUID.fromString(vehicleId));
+            ticket.setVehicle(vehicle);
+        }
 
-        ticket.setId(UUID.fromString(rs.getString("id")));
-        ticket.setVehicle(vehicle);
-        ticket.setEntryTime(LocalDateTime.parse(rs.getString("entry_time")));
-        ticket.setDepartureTime(LocalDateTime.parse(rs.getString("departure_time")));
-        ticket.setBillingReport(billingReport);
+        final String billingReportId = rs.getString("billing_report_id");
+        if (billingReportId != null) {
+            final BillingReport billingReport = reportService.findBillingReportById(UUID.fromString(billingReportId));
+            ticket.setBillingReport(billingReport);
+        }
+
+        final String entryTime = rs.getString("entry_time");
+        if (entryTime != null) {
+            final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
+            ticket.setEntryTime(LocalDateTime.parse(entryTime, formatter));
+        }
+
+        final String departureTime = rs.getString("departure_time");
+        if (departureTime != null) {
+            final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+            ticket.setDepartureTime(LocalDateTime.parse(departureTime, formatter));
+        }
 
         return ticket;
     }

@@ -16,11 +16,14 @@ public class VehicleRepositoryImp implements VehicleRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private VehicleRowMapper vehicleRowMapper;
+
     @Override
     public Vehicle findVehicleById(final UUID id) {
         if (id != null) {
             final String sql = "SELECT id, license_plate, model, color FROM vehicle WHERE id = ?";
-            return jdbcTemplate.queryForObject(sql, new Object[]{id}, new VehicleRowMapper());
+            return jdbcTemplate.queryForObject(sql, new Object[]{id}, vehicleRowMapper);
         }
 
         return null;
@@ -30,7 +33,7 @@ public class VehicleRepositoryImp implements VehicleRepository {
     public Vehicle findVehicleByLicensePlate(final String licensePlate){
         try {
             final String sql = "SELECT id, license_plate, model, color FROM vehicle where license_plate = ?";
-            return jdbcTemplate.queryForObject(sql, new Object[]{licensePlate}, new VehicleRowMapper());
+            return jdbcTemplate.queryForObject(sql, new Object[]{licensePlate}, vehicleRowMapper);
         } catch (final Exception e) {
             return null;
         }
@@ -39,7 +42,7 @@ public class VehicleRepositoryImp implements VehicleRepository {
     @Override
     public List<Vehicle> listVehicles() {
         final String sql = "SELECT id, license_plate, model, color FROM vehicle";
-        return jdbcTemplate.query(sql, new VehicleRowMapper());
+        return jdbcTemplate.query(sql, vehicleRowMapper);
     }
 
     @Override

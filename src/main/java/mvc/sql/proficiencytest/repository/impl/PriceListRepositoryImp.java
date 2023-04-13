@@ -15,11 +15,14 @@ public class PriceListRepositoryImp implements PriceListRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private PriceListRowMapper priceListRowMapper;
+
     @Override
     public PriceList findPriceListById(final UUID id) {
         if (id != null) {
             final String sql = "SELECT id, price_per_hour, price_per_additional_hour, single_price FROM price_list WHERE id = ?";
-            return jdbcTemplate.queryForObject(sql, new Object[]{id}, new PriceListRowMapper());
+            return jdbcTemplate.queryForObject(sql, new Object[]{id}, priceListRowMapper);
         }
 
         return null;

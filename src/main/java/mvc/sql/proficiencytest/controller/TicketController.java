@@ -4,32 +4,36 @@ import mvc.sql.proficiencytest.model.mapper.TicketMapper;
 import mvc.sql.proficiencytest.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class TicketController {
 
-    @Autowired
-    private TicketService ticketService;
+    private final TicketService ticketService;
+
+    private final TicketMapper mapper;
 
     @Autowired
-    private TicketMapper mapper;
+    public TicketController(final TicketService ticketService, final TicketMapper mapper) {
+        this.ticketService = ticketService;
+        this.mapper = mapper;
+    }
 
     @GetMapping("/ticket")
-    public String registerTicket(final Model model,
-                                 @RequestParam(value = "entryTime") final LocalDateTime entryTime,
+    public Map<String, Object> registerTicket(@RequestParam(value = "entryTime") final LocalDateTime entryTime,
                                  @RequestParam(value = "licensePlate") final String licensePlate) {
 
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-        model.addAttribute("entryTime", entryTime.format(formatter));
-        model.addAttribute("licensePlate", licensePlate);
-        return "ticket/ticket";
+        Map<String, Object> response = new HashMap<>();
+        response.put("entryTime", entryTime.format(formatter));
+        response.put("licensePlate", licensePlate);
+        return response;
     }
 
 }

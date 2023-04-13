@@ -12,23 +12,44 @@ import java.util.UUID;
 
 @Repository
 public class TicketRepositoryImp implements TicketRepository {
+    private final JdbcTemplate jdbcTemplate;
+    private final TicketRowMapper ticketRowMapper;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    public TicketRepositoryImp(JdbcTemplate jdbcTemplate, TicketRowMapper ticketRowMapper) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.ticketRowMapper = ticketRowMapper;
+    }
 
     @Override
     public Ticket findTicketById(final UUID id) {
         if (id != null) {
-            final String sql = "SELECT id, vehicle_id, billingReport_id, entry_time, departure_time FROM ticket WHERE id = ?";
-            return jdbcTemplate.queryForObject(sql, new Object[]{id}, new TicketRowMapper());
+            final String sql = "SELECT id, vehicle_id, billing_report_id, entry_time, departure_time FROM ticket WHERE id = ?";
+            return jdbcTemplate.queryForObject(sql, new Object[]{id}, ticketRowMapper);
         }
 
         return null;
     }
 
     @Override
+    public Ticket findTicketWithoutDepartureTime(final UUID vehicleId) {
+        try {
+            final String sql = "SELECT id, vehicle_id, billing_report_id, entry_time, departure_time FROM ticket WHERE vehicle_id = ? AND entry_time IS NOT NULL AND departure_time IS NULL ORDER BY entry_time DESC";
+            List<Ticket> ticketList = jdbcTemplate.query(sql, new Object[]{vehicleId}, ticketRowMapper);
+            if (!ticketList.isEmpty()) {
+                return ticketList.get(0);
+            }
+
+            return null;
+        } catch (final Exception e) {
+            return null;
+        }
+    }
+
+    @Override
     public List<Ticket> listTickets() {
-        final String sql = "SELECT id, vehicle_id, billingReport_id, entry_time, departure_time FROM ticket";
-        return jdbcTemplate.query(sql, new TicketRowMapper());
+        final String sql = "SELECT id, vehicle_id, billing_report_id, entry_time, departure_time FROM ticket";
+        return jdbcTemplate.query(sql, ticketRowMapper);
     }
 
     @Override
@@ -65,9 +86,9 @@ public class TicketRepositoryImp implements TicketRepository {
     @Override
     public List<Ticket> findTicketsByListId(final List<UUID> ids) {
         if (ids != null && !ids.isEmpty()) {
-            final String sql = "SELECT id, vehicle_id, billingReport_id, entry_time, departure_time FROM ticket WHERE id IN(?)";
+            final String sql = "SELECT id, vehicle_id, billing_report_id, entry_time, departure_time FROM ticket WHERE id IN(?)";
             final Object[] idsArray = ids.toArray();
-            return jdbcTemplate.query(sql, idsArray, new TicketRowMapper());
+            return jdbcTemplate.query(sql, idsArray, ticketRowMapper);
         }
 
         return null;
@@ -76,8 +97,8 @@ public class TicketRepositoryImp implements TicketRepository {
     @Override
     public List<Ticket> findAllBillingReportTickets(final UUID billingReportId) {
         if (billingReportId != null) {
-            final String sql = "SELECT id, vehicle_id, billingReport_id, entry_time, departure_time FROM ticket WHERE billingReport_id = ?";
-            return jdbcTemplate.query(sql, new TicketRowMapper());
+            final String sql = "SELECT id, vehicle_id, billing_report_id, entry_time, departure_time FROM ticket WHERE billingReport_id = ?";
+            return jdbcTemplate.query(sql, ticketRowMapper);
         }
 
         return null;

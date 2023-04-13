@@ -13,10 +13,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class VehicleController {
@@ -37,30 +41,36 @@ public class VehicleController {
     }
 
     @PostMapping("/vehicle/save")
-    public String saveVehicle(@ModelAttribute("vehicleDTO") @Valid final VehicleDTO vehicleDTO,
-                                final BindingResult bindingResult,
-                                final Model model) {
+    @ResponseBody
+    public Map<String, Object> saveVehicle(@ModelAttribute("vehicleDTO") @Valid final VehicleDTO vehicleDTO) {
+        Map<String, Object> response = new HashMap<>();
         try {
-            final Vehicle alreadyExists = vehicleService.findVehicleByLicensePlate(vehicleDTO.getLicensePlate());
+            Vehicle vehicle = vehicleService.findVehicleByLicensePlate(vehicleDTO.getLicensePlate());
 
-            if(alreadyExists != null) {
-                final Ticket ticket = new Ticket(alreadyExists, null, LocalDateTime.now(), null);
-                ticketService.createTicket(ticket);
-
-                return "redirect:/ticket?licensePlate="+alreadyExists.getLicensePlate()+"&entryTime="+ticket.getEntryTime();
+            if(vehicle == null) {
+                vehicle = mapper.toEntity(vehicleDTO);
+                vehicleService.createVehicle(vehicle);
             }
 
-            final Vehicle vehicle = mapper.toEntity(vehicleDTO);
-            vehicleService.createVehicle(vehicle);
+            final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
 
-            final Ticket ticket = new Ticket(vehicle, null, LocalDateTime.now(), null);
+            Ticket ticket = ticketService.findTicketWithoutDepartureTime(vehicle.getId());
+
+            if(ticket != null) {
+                response.put("errorMessage", "Já existe uma entrada sem saída correspondente registrada com a data: " + ticket.getEntryTime().format(formatter));
+                return response;
+            }
+
+            ticket = new Ticket(vehicle, null, LocalDateTime.now(), null);
             ticketService.createTicket(ticket);
 
-            return "redirect:/ticket?licensePlate="+vehicle.getLicensePlate()+"&entryTime="+ticket.getEntryTime();
+            response.put("entryTime", ticket.getEntryTime().format(formatter));
+            response.put("licensePlate", vehicle.getLicensePlate());
 
+            return response;
         } catch (final Exception e) {
-            model.addAttribute("errorMessage", "Erro inesperado!");
-            return "error";
+            response.put("errorMessage", "Erro inesperado!");
+            return response;
         }
     }
 

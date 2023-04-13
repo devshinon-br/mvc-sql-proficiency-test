@@ -1,12 +1,6 @@
 package mvc.sql.proficiencytest.service;
-
-import mvc.sql.proficiencytest.model.BillingReport;
 import mvc.sql.proficiencytest.model.Ticket;
-import mvc.sql.proficiencytest.model.Vehicle;
-import mvc.sql.proficiencytest.model.dto.TicketDTO;
-import mvc.sql.proficiencytest.repository.BillingReportRepository;
 import mvc.sql.proficiencytest.repository.TicketRepository;
-import mvc.sql.proficiencytest.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +29,10 @@ public class TicketService {
 
     public Ticket findTicketById(final UUID id) {
         return ticketRepository.findTicketById(id);
+    }
+
+    public Ticket findTicketWithoutDepartureTime(final UUID vehicleId) {
+        return ticketRepository.findTicketWithoutDepartureTime(vehicleId);
     }
 
     public List<Ticket> listTickets() {

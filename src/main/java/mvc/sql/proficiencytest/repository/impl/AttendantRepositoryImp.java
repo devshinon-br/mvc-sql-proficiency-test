@@ -15,11 +15,14 @@ public class AttendantRepositoryImp implements AttendantRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private AttendantRowMapper attendantRowMapper;
+
     @Override
     public Attendant findAttendantById(final UUID id) {
         if (id != null) {
             final String sql = "SELECT id, name FROM attendant WHERE id = ?";
-            return jdbcTemplate.queryForObject(sql, new Object[]{id}, new AttendantRowMapper());
+            return jdbcTemplate.queryForObject(sql, new Object[]{id}, attendantRowMapper);
         }
 
         return null;
@@ -28,7 +31,7 @@ public class AttendantRepositoryImp implements AttendantRepository {
     @Override
     public List<Attendant> listAttendants() {
         final String sql = "SELECT id, name FROM attendant";
-        return jdbcTemplate.query(sql, new AttendantRowMapper());
+        return jdbcTemplate.query(sql, attendantRowMapper);
     }
 
     @Override

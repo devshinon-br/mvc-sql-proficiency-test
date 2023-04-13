@@ -2,11 +2,13 @@ package mvc.sql.proficiencytest.repository.rowmapper;
 
 import mvc.sql.proficiencytest.model.PriceList;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+@Component
 public class PriceListRowMapper implements RowMapper<PriceList> {
     @Override
     public PriceList mapRow(final ResultSet rs, final int rowNum) throws SQLException {
