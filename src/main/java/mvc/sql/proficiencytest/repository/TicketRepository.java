@@ -19,6 +19,4 @@ public interface TicketRepository {
     void deleteTicket(final UUID id);
 
     List<Ticket> findTicketsByListId(final List<UUID> ids);
-
-    List<Ticket> findAllBillingReportTickets(final UUID billingReportId);
 }

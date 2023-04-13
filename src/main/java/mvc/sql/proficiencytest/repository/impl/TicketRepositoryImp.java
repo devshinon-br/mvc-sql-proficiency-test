@@ -24,7 +24,7 @@ public class TicketRepositoryImp implements TicketRepository {
     @Override
     public Ticket findTicketById(final UUID id) {
         if (id != null) {
-            final String sql = "SELECT id, vehicle_id, billing_report_id, price_list_id, entry_time, departure_time FROM ticket WHERE id = ?";
+            final String sql = "SELECT id, vehicle_id, dropdown-attendant, price_list_id, entry_time, departure_time FROM ticket WHERE id = ?";
             return jdbcTemplate.queryForObject(sql, new Object[]{id}, ticketRowMapper);
         }
 
@@ -34,7 +34,7 @@ public class TicketRepositoryImp implements TicketRepository {
     @Override
     public Ticket findTicketWithoutDepartureTime(final UUID vehicleId) {
         try {
-            final String sql = "SELECT id, vehicle_id, billing_report_id, price_list_id, entry_time, departure_time FROM ticket WHERE vehicle_id = ? AND entry_time IS NOT NULL AND departure_time IS NULL ORDER BY entry_time DESC";
+            final String sql = "SELECT id, vehicle_id, price_list_id, entry_time, departure_time FROM ticket WHERE vehicle_id = ? AND entry_time IS NOT NULL AND departure_time IS NULL ORDER BY entry_time DESC";
             List<Ticket> ticketList = jdbcTemplate.query(sql, new Object[]{vehicleId}, ticketRowMapper);
             if (!ticketList.isEmpty()) {
                 return ticketList.get(0);
@@ -48,19 +48,18 @@ public class TicketRepositoryImp implements TicketRepository {
 
     @Override
     public List<Ticket> listTickets() {
-        final String sql = "SELECT id, vehicle_id, billing_report_id, price_list_id, entry_time, departure_time FROM ticket";
+        final String sql = "SELECT id, vehicle_id, price_list_id, entry_time, departure_time FROM ticket";
         return jdbcTemplate.query(sql, ticketRowMapper);
     }
 
     @Override
     public void createTicket(final Ticket ticket) {
         if (ticket != null) {
-            final String sql = "INSERT INTO ticket (id, vehicle_id, billing_report_id, price_list_id, entry_time, departure_time) VALUES (?, ?, ?, ?, ?, ?)";
+            final String sql = "INSERT INTO ticket (id, vehicle_id, price_list_id, entry_time, departure_time) VALUES (?, ?, ?, ?, ?)";
             jdbcTemplate.update(
                     sql,
                     ticket.getId(),
                     ticket.getVehicle().getId(),
-                    ticket.getBillingReport() == null ? null : ticket.getBillingReport().getId(),
                     ticket.getPriceList() == null ? null : ticket.getPriceList().getId(),
                     ticket.getEntryTime(),
                     ticket.getDepartureTime()
@@ -87,19 +86,9 @@ public class TicketRepositoryImp implements TicketRepository {
     @Override
     public List<Ticket> findTicketsByListId(final List<UUID> ids) {
         if (ids != null && !ids.isEmpty()) {
-            final String sql = "SELECT id, vehicle_id, billing_report_id, price_list_id, entry_time, departure_time FROM ticket WHERE id IN(?)";
+            final String sql = "SELECT id, vehicle_id, , price_list_id, entry_time, departure_time FROM ticket WHERE id IN(?)";
             final Object[] idsArray = ids.toArray();
             return jdbcTemplate.query(sql, idsArray, ticketRowMapper);
-        }
-
-        return null;
-    }
-
-    @Override
-    public List<Ticket> findAllBillingReportTickets(final UUID billingReportId) {
-        if (billingReportId != null) {
-            final String sql = "SELECT id, vehicle_id, billing_report_id, price_list_id, entry_time, departure_time FROM ticket WHERE billingReport_id = ?";
-            return jdbcTemplate.query(sql, ticketRowMapper);
         }
 
         return null;

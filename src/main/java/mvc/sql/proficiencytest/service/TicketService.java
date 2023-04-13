@@ -54,8 +54,4 @@ public class TicketService {
     public List<Ticket> findTicketsByListId(final List<UUID> ids) {
         return ticketRepository.findTicketsByListId(ids);
     }
-
-    public List<Ticket> findAllBillingReportTickets(final UUID billingReportId) {
-        return ticketRepository.findAllBillingReportTickets(billingReportId);
-    }
 }

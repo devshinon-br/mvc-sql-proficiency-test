@@ -1,9 +1,7 @@
 package mvc.sql.proficiencytest.repository.rowmapper;
 
-import mvc.sql.proficiencytest.model.BillingReport;
 import mvc.sql.proficiencytest.model.Ticket;
 import mvc.sql.proficiencytest.model.Vehicle;
-import mvc.sql.proficiencytest.service.BillingReportService;
 import mvc.sql.proficiencytest.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
@@ -12,20 +10,16 @@ import org.springframework.stereotype.Component;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @Component
 public class TicketRowMapper implements RowMapper<Ticket> {
 
     private final VehicleService vehicleService;
-    private final BillingReportService reportService;
 
     @Autowired
-    public TicketRowMapper(final VehicleService vehicleService, final BillingReportService reportService) {
+    public TicketRowMapper(final VehicleService vehicleService) {
         this.vehicleService = vehicleService;
-        this.reportService = reportService;
     }
 
     @Override
@@ -41,12 +35,6 @@ public class TicketRowMapper implements RowMapper<Ticket> {
         if (vehicleId != null) {
             final Vehicle vehicle = vehicleService.findVehicleById(UUID.fromString(vehicleId));
             ticket.setVehicle(vehicle);
-        }
-
-        final String billingReportId = rs.getString("billing_report_id");
-        if (billingReportId != null) {
-            final BillingReport billingReport = reportService.findBillingReportById(UUID.fromString(billingReportId));
-            ticket.setBillingReport(billingReport);
         }
 
         final String entryTime = rs.getString("entry_time");

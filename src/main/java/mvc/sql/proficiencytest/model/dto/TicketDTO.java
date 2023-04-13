@@ -11,7 +11,6 @@ import java.util.UUID;
 public class TicketDTO {
     @NotNull
     private UUID vehicleId;
-    private UUID billingReportId;
     private UUID priceListId;
     @NotNull
     private LocalDateTime entryTime;

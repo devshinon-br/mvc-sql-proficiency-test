@@ -73,7 +73,7 @@ public class VehicleController {
                 return response;
             }
 
-            ticket = new Ticket(vehicle, null, priceList.get(0), LocalDateTime.now(), null);
+            ticket = new Ticket(vehicle, priceList.get(0), LocalDateTime.now(), null);
             ticketService.createTicket(ticket);
 
             response.put("entryTime", ticket.getEntryTime().format(formatter));
