@@ -12,11 +12,15 @@ import java.util.UUID;
 
 @Repository
 public class AttendantRepositoryImp implements AttendantRepository {
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
+    private final AttendantRowMapper attendantRowMapper;
 
     @Autowired
-    private AttendantRowMapper attendantRowMapper;
+    public AttendantRepositoryImp(final JdbcTemplate jdbcTemplate,
+                                  final AttendantRowMapper attendantRowMapper) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.attendantRowMapper = attendantRowMapper;
+    }
 
     @Override
     public Attendant findAttendantById(final UUID id) {

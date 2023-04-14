@@ -18,11 +18,14 @@ import java.util.List;
 @Controller
 public class AttendantController {
 
-    @Autowired
-    private AttendantService attendantService;
+    private final AttendantService attendantService;
+    private final AttendantMapper mapper;
 
     @Autowired
-    private AttendantMapper mapper;
+    public AttendantController(final AttendantService attendantService, final AttendantMapper mapper) {
+        this.attendantService = attendantService;
+        this.mapper = mapper;
+    }
 
     @GetMapping("/attendant")
     public String registerAttendant(final Model model) {

@@ -13,11 +13,15 @@ import java.util.UUID;
 @Repository
 public class PriceListRepositoryImp implements PriceListRepository {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
+    private final PriceListRowMapper priceListRowMapper;
 
     @Autowired
-    private PriceListRowMapper priceListRowMapper;
+    public PriceListRepositoryImp(final JdbcTemplate jdbcTemplate,
+                                  final PriceListRowMapper priceListRowMapper) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.priceListRowMapper = priceListRowMapper;
+    }
 
     @Override
     public PriceList findPriceListById(final UUID id) {

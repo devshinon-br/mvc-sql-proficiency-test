@@ -3,6 +3,7 @@ package mvc.sql.proficiencytest.model.dto;
 import lombok.Getter;
 import lombok.Setter;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -11,8 +12,8 @@ import java.util.UUID;
 public class TicketDTO {
     @NotNull
     private UUID vehicleId;
-    private UUID priceListId;
     @NotNull
     private LocalDateTime entryTime;
     private LocalDateTime departureTime;
+    private BigDecimal totalValue;
 }

@@ -34,7 +34,7 @@ public class PriceListService {
         return priceListRepository.getPriceListActived();
     }
 
-    public void checkStatusTrueAndChange(PriceList priceList) {
+    public void checkStatusTrueAndChange(final PriceList priceList) {
         if(priceList.isStatus()) {
             List<PriceList> priceLists = priceListRepository.getPriceListActived();
             if(!priceLists.isEmpty()) {

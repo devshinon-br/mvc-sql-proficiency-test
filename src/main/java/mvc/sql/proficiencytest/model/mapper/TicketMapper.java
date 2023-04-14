@@ -20,13 +20,12 @@ public class TicketMapper {
 
     public Ticket toEntity(final TicketDTO dto) {
         final Vehicle vehicle = vehicleService.findVehicleById(dto.getVehicleId());
-        final PriceList priceList = priceListService.findPriceListById(dto.getPriceListId());
 
         return new Ticket(
                 vehicle,
-                priceList,
                 dto.getEntryTime(),
-                dto.getDepartureTime()
+                dto.getDepartureTime(),
+                dto.getTotalValue()
         );
     }
 

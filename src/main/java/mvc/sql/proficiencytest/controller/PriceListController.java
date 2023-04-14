@@ -16,12 +16,15 @@ import java.util.UUID;
 
 @Controller
 public class PriceListController {
+    private final  PriceListService priceListService;
+    private final PriceListMapper priceListMapper;
 
     @Autowired
-    private PriceListService priceListService;
-
-    @Autowired
-    private PriceListMapper priceListMapper;
+    public PriceListController(final PriceListService priceListService,
+                               final PriceListMapper priceListMapper) {
+        this.priceListService = priceListService;
+        this.priceListMapper = priceListMapper;
+    }
 
     @GetMapping("/pricelist")
     public String registerPriceList(final Model model) {
@@ -38,6 +41,7 @@ public class PriceListController {
         }
 
         final PriceList priceList = priceListMapper.toEntity(priceListDTO);
+
         priceListService.checkStatusTrueAndChange(priceList);
         priceListService.createPriceList(priceList);
 
@@ -78,7 +82,6 @@ public class PriceListController {
         priceList.setId(id);
 
         priceListService.checkStatusTrueAndChange(priceList);
-
         priceListService.updatePriceList(priceList);
 
         return "redirect:/pricelist/list";

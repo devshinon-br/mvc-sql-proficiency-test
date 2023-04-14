@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -45,6 +46,11 @@ public class TicketRowMapper implements RowMapper<Ticket> {
         final String departureTime = rs.getString("departure_time");
         if (departureTime != null) {
             ticket.setDepartureTime(Timestamp.valueOf(entryTime).toLocalDateTime());
+        }
+
+        final BigDecimal totalValue = rs.getBigDecimal("total_value");
+        if (totalValue != null) {
+            ticket.setTotalValue(totalValue);
         }
 
         return ticket;

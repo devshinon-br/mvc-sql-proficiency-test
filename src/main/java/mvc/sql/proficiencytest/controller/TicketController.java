@@ -1,8 +1,9 @@
 package mvc.sql.proficiencytest.controller;
 
+import mvc.sql.proficiencytest.model.PriceList;
 import mvc.sql.proficiencytest.model.Ticket;
 import mvc.sql.proficiencytest.model.dto.TicketDTO;
-import mvc.sql.proficiencytest.model.mapper.TicketMapper;
+import mvc.sql.proficiencytest.service.PriceListService;
 import mvc.sql.proficiencytest.service.TicketService;
 import mvc.sql.proficiencytest.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -27,15 +29,15 @@ public class TicketController {
 
     private final VehicleService vehicleService;
 
-    private final TicketMapper mapper;
+    private final PriceListService priceListService;
 
     @Autowired
     public TicketController(final TicketService ticketService,
                             final VehicleService vehicleService,
-                            final TicketMapper mapper) {
+                            final PriceListService priceListService) {
         this.ticketService = ticketService;
         this.vehicleService = vehicleService;
-        this.mapper = mapper;
+        this.priceListService = priceListService;
     }
 
     @GetMapping("/ticket")
@@ -58,9 +60,16 @@ public class TicketController {
 
     @PostMapping("/ticket/departure-time/save")
     public String saveTicket(@ModelAttribute("ticketDTO") @Valid final TicketDTO ticketDTO,
-                             final BindingResult result) {
+                             final BindingResult result,
+                             final Model model) {
         if (result.hasErrors()) {
             return "ticket/departureTime";
+        }
+
+        final List<PriceList> priceList = priceListService.getPriceListActived();
+        if (priceList == null || priceList.isEmpty()) {
+            model.addAttribute("errorMessage", "Não há tabela de preços ativa!");
+            return "error";
         }
 
         final Ticket ticket = ticketService.findTicketWithoutDepartureTime(ticketDTO.getVehicleId());

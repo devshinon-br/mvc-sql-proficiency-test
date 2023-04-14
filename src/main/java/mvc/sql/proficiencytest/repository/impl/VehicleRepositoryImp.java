@@ -18,11 +18,14 @@ import java.util.UUID;
 @Repository
 public class VehicleRepositoryImp implements VehicleRepository {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
+    private final VehicleRowMapper vehicleRowMapper;
 
     @Autowired
-    private VehicleRowMapper vehicleRowMapper;
+    public VehicleRepositoryImp(final JdbcTemplate jdbcTemplate, final VehicleRowMapper vehicleRowMapper) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.vehicleRowMapper = vehicleRowMapper;
+    }
 
     @Override
     public Vehicle findVehicleById(final UUID id) {
