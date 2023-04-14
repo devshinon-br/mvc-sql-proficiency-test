@@ -41,7 +41,10 @@
                                 <i class="fas fa-ellipsis-v"></i>
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" th:href="@{/ticket/departure-time}">Registrar saída de veículo</a>
+                                <a class="dropdown-item"
+                                   th:href="@{/ticket/departure-time?selectedLicensePlate={selectedLicensePlate}(selectedLicensePlate=${vehicle.left.licensePlate})}">
+                                    Registrar saída de veículo
+                                </a>
                             </div>
                         </div>
                     </td>

@@ -70,8 +70,8 @@ public class TicketRepositoryImp implements TicketRepository {
     @Override
     public void updateTicket(final Ticket ticket) {
         if (ticket != null) {
-            final String sql = "UPDATE ticket SET entry_time = ?, departure_time = ? WHERE id = ?";
-            jdbcTemplate.update(sql, ticket.getEntryTime(), ticket.getDepartureTime(), ticket.getId());
+            final String sql = "UPDATE ticket SET entry_time = ?, departure_time = ?, total_value = ? WHERE id = ?";
+            jdbcTemplate.update(sql, ticket.getEntryTime(), ticket.getDepartureTime(), ticket.getTotalValue(), ticket.getId());
         }
     }
 

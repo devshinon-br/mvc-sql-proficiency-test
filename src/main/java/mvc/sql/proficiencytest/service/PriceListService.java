@@ -1,10 +1,14 @@
 package mvc.sql.proficiencytest.service;
 
 import mvc.sql.proficiencytest.model.PriceList;
+import mvc.sql.proficiencytest.model.Ticket;
 import mvc.sql.proficiencytest.repository.PriceListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.DayOfWeek;
+import java.time.Duration;
 import java.util.List;
 import java.util.UUID;
 

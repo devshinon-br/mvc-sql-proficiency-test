@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -52,9 +53,12 @@ public class TicketController {
     }
 
     @GetMapping("/ticket/departure-time")
-    public String showTicketForm(final Model model) {
+    public String showTicketForm(final Model model,
+                                 @RequestParam(value = "selectedLicensePlate", defaultValue = "") final String selectedLicensePlate) {
         model.addAttribute("vehicles", vehicleService.findVehiclesWhereDepartureTimeIsNull());
         model.addAttribute("ticketDTO", new TicketDTO());
+        model.addAttribute("selectedLicensePlate", selectedLicensePlate);
+
         return "ticket/departureTime";
     }
 
@@ -75,9 +79,12 @@ public class TicketController {
         final Ticket ticket = ticketService.findTicketWithoutDepartureTime(ticketDTO.getVehicleId());
         ticket.setDepartureTime(ticketDTO.getDepartureTime());
 
+        final BigDecimal totalValue = ticketService.getTheTotaValueCalculation(priceList.get(0), ticket);
+        ticket.setTotalValue(totalValue);
+
         ticketService.updateTicket(ticket);
 
-        return "redirect:/ticket/departure-time";
+        return "redirect:/vehicle/list";
     }
 
 }
