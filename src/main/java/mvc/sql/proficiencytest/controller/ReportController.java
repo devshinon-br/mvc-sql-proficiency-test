@@ -32,8 +32,12 @@ public class ReportController {
     @GetMapping("/report/monthly")
     public String showReportMonthly(final Model model) {
         final List<ReportMonthly> items = reportService.findNumVehiclesAndTotalValueInMonth();
+        final BigDecimal totalValue = items.stream()
+                .map(ReportMonthly::getTotalValue)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         model.addAttribute("items", items);
+        model.addAttribute("totalValue", totalValue);
 
         return "report/monthly";
     }
