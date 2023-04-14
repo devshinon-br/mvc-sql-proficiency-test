@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-public class ReportItem {
+public class ReportDaily {
     private String licensePlate;
     private String totalTime;
     private BigDecimal totalValue;

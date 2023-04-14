@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório Mensal</title>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/main.js}"></script>
+    <link th:href="@{/assets/fontawesome/css/all.min.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="text-center mb-4">Relatório Mensal</h1>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Dia</th>
+                    <th>Quantidade de veículos</th>
+                    <th>Total Faturado</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${items}">
+                    <td th:text="${item.departureDate}"></td>
+                    <td th:text="${item.totalVehicles}"></td>
+                    <td th:text="${'R$ ' + item.totalValue}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="text-center">
+                <a class="btn btn-secondary" href="/">Voltar</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

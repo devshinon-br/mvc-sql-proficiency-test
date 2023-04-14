@@ -49,7 +49,19 @@ public class VehicleRepositoryImp implements VehicleRepository {
 
     @Override
     public List<Pair<Vehicle, Ticket>> findVehiclesWhereDepartureTimeIsNull() {
-        final String sql = "SELECT v.id, v.license_plate, v.model, v.color, t.id AS ticket_id, t.vehicle_id, t.entry_time, t.departure_time FROM vehicle v LEFT JOIN ticket t ON t.vehicle_id = v.id WHERE t.departure_time IS NULL";
+        final String sql =
+                "SELECT " +
+                "v.id, " +
+                "v.license_plate, " +
+                "v.model, v.color, " +
+                "t.id AS ticket_id, " +
+                "t.vehicle_id, " +
+                "t.entry_time, " +
+                "t.departure_time " +
+                "FROM vehicle v " +
+                "LEFT JOIN ticket t ON t.vehicle_id = v.id " +
+                "WHERE t.departure_time IS NULL";
+
         return jdbcTemplate.query(sql, rs -> {
             final List<Pair<Vehicle, Ticket>> result = new ArrayList<>();
             while (rs.next()) {
